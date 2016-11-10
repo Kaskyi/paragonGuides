@@ -1,0 +1,15 @@
+{
+  "name": "ParagonGuides",
+  "version": "0.0.0",
+  "description": "ParagonGuides",
+  "main": "app.js",
+  "author": {
+    "name": "Master",
+    "email": ""
+  },
+  "dependencies": {
+    "express": "3.4.4",
+    "jade": "*",
+    "stylus": "*"
+  }
+}
