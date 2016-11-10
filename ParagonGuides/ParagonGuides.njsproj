@@ -67,6 +67,7 @@
     <Content Include="views\guide.jade" />
     <Content Include="views\index.jade" />
     <Content Include="views\layout.jade" />
+    <Content Include="views\wiki.jade" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="models\" />
