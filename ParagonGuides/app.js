@@ -20,6 +20,7 @@ var routerGuide = require('./routes/guide.js');
 var routerUser = require('./routes/user.js');
 var routerWiKi = require('./routes/wiki.js');
 var routerIndex = require('./routes');
+var routerSession = require('./routes/session.js');//TODO
 
 var app = express();
 
