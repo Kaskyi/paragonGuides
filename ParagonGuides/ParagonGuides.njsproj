@@ -31,7 +31,11 @@
   </PropertyGroup>
   <ItemGroup>
     <Compile Include="app.js" />
+    <Compile Include="models\init.js" />
+    <Compile Include="routes\guide.js" />
     <Compile Include="routes\index.js" />
+    <Compile Include="routes\wiki.js" />
+    <Compile Include="routes\user.js" />
   </ItemGroup>
   <ItemGroup>
     <Content Include="public\javascripts\bootstrap.js" />
@@ -58,15 +62,19 @@
     <Content Include="public\stylesheets\bootstrap.min.css" />
     <Content Include="public\stylesheets\style.styl" />
     <Content Include="README.md" />
-    <Content Include="views\contact.jade" />
-    <Content Include="views\about.jade" />
+    <Content Include="views\guides.jade" />
+    <Content Include="views\user.jade" />
+    <Content Include="views\guide.jade" />
     <Content Include="views\index.jade" />
     <Content Include="views\layout.jade" />
   </ItemGroup>
   <ItemGroup>
+    <Folder Include="models\" />
     <Folder Include="public\" />
     <Folder Include="public\fonts\" />
     <Folder Include="public\images\" />
+    <Folder Include="public\images\characters\" />
+    <Folder Include="public\images\cards\" />
     <Folder Include="public\javascripts\" />
     <Folder Include="public\stylesheets\" />
     <Folder Include="routes\" />
