@@ -1,4 +1,6 @@
-﻿var path = require('path');
+﻿var RELOAD_DB = false;//Important ONLY DEVELOPER MODE
+
+var path = require('path');
 var appDir = path.dirname(require.main.filename);
 
 var fs = require("fs");
@@ -9,15 +11,18 @@ if (!exists) {
     fs.openSync(file, "w");
 }
 var sqlite3 = require("sqlite3").verbose();
-
 var db = new sqlite3.Database(file);
-if (!exists) {
+
+
+if (!exists || RELOAD_DB) {
     db.serialize(function () {
         initTables(db);
         initData(db);
     });
 }
 db.close();
+
+
 
 function initTables(db) {
     db.run("CREATE TABLE user (id INTEGER PRIMARY KEY NOT NULL," 
@@ -37,12 +42,12 @@ function initTables(db) {
                              + "user_id INTEGER REFERENCES user(id)," 
                              + "character_id INTEGER REFERENCES character(id),"
                              + "skills," 
-                             + "basecard1 INTEGER REFERENCES guide_cards(id)," 
-                             + "basecard2 INTEGER REFERENCES guide_cards(id)," 
-                             + "basecard3 INTEGER REFERENCES guide_cards(id),"
-                             + "basecard4 INTEGER REFERENCES guide_cards(id),"
-                             + "basecard5 INTEGER REFERENCES guide_cards(id)," 
-                             + "basecard6 INTEGER REFERENCES guide_cards(id))");
+                             + "basecard1_id INTEGER REFERENCES guide_cards(id)," 
+                             + "basecard2_id INTEGER REFERENCES guide_cards(id)," 
+                             + "basecard3_id INTEGER REFERENCES guide_cards(id),"
+                             + "basecard4_id INTEGER REFERENCES guide_cards(id),"
+                             + "basecard5_id INTEGER REFERENCES guide_cards(id)," 
+                             + "basecard6_id INTEGER REFERENCES guide_cards(id))");
     
     db.run("CREATE TABLE guide_cards (id INTEGER PRIMARY KEY NOT NULL,"
                              + "basecard_id INTEGER REFERENCES cards(id),"
@@ -70,14 +75,16 @@ function initData(db) {
     
     stmt = db.prepare("INSERT INTO cards VALUES (?,?,?,?,?)");
     stmt.run("0", " 0", " Card1", " http://paragon-gb.ru/wp-content/uploads/2016/08/health_potion.png ", " \'+10 Восстановления здоровья на 15 секунд. Заряды (2) пополняются на базе. Перезарядка: 15 сек. \'");
+    stmt.run("1", " 0", " Card2", " http://paragon-gb.ru/wp-content/uploads/2016/08/health_potion.png ", " \'+10 Восстановления здоровья на 15 секунд. Заряды (2) пополняются на базе. Перезарядка: 15 сек. \'");
     stmt.finalize();
 
     stmt = db.prepare("INSERT INTO guide_cards VALUES (?,?,?,?,?)");
     stmt.run("0", " 0", " 0", " 0", " null");
+    stmt.run("1", " 0", " 0", " 0", " null");
     stmt.finalize();
 
     stmt = db.prepare("INSERT INTO guide VALUES (?,?,?,?,?,?,?,?,?,?)");
-    stmt.run("0", " 0", " {{0,1,0},{0,0,1}}", " 0", "null", "null", "null", "null", "null", "null");
+    stmt.run("0", " 0", " 0", " {{0,1,0},{0,0,1}}",  "0", "null", "null", "null", "null", "null");
     stmt.finalize();
 
 }
@@ -88,5 +95,4 @@ module.exports = function (req, res, next) {
         req.db = db = new sqlite3.Database(file);
     }
     next();
-    req.db.close();
 }
