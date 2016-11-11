@@ -31,9 +31,16 @@
   </PropertyGroup>
   <ItemGroup>
     <Compile Include="app.js" />
+    <Compile Include="models\card.js" />
+    <Compile Include="models\character.js" />
+    <Compile Include="models\guide.js" />
+    <Compile Include="models\guide_cards.js" />
+    <Compile Include="models\index.js" />
     <Compile Include="models\init.js" />
+    <Compile Include="models\user.js" />
     <Compile Include="routes\guide.js" />
     <Compile Include="routes\index.js" />
+    <Compile Include="routes\session.js" />
     <Compile Include="routes\wiki.js" />
     <Compile Include="routes\user.js" />
   </ItemGroup>
@@ -62,6 +69,7 @@
     <Content Include="public\stylesheets\bootstrap.min.css" />
     <Content Include="public\stylesheets\style.styl" />
     <Content Include="README.md" />
+    <Content Include="views\guide-constructor.jade" />
     <Content Include="views\guides.jade" />
     <Content Include="views\user.jade" />
     <Content Include="views\guide.jade" />

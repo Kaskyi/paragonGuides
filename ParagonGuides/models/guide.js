@@ -77,5 +77,5 @@ module.exports.getFullGuideByID = function (id, callback) {
     );
 };
 module.exports.getGuidesByCount = function (limit, callback) {
-    db.all("SELECT * FROM guide LIMIT ? ", [id], callback);
+    db.all("SELECT id, character_id FROM guide LIMIT ? ", [limit], callback);
 };
