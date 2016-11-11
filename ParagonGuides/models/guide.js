@@ -1,8 +1,8 @@
 ﻿var db;
-var character = require('./character.js');
 var card = require('./card.js');
 var character = require('./character.js');
 var guide_cards = require('./guide_cards.js');
+var Promice = require('promise');
 
 function getGuideByKeyValue(key, value, callback) {
     db.get("SELECT * FROM guide WHERE id = ? ", [value], callback);
@@ -14,92 +14,59 @@ module.exports.getGuideByID = function (id, callback) {
     db.get("SELECT * FROM guide WHERE id = ? ", [id], callback);
 };
 module.exports.getFullGuideByID = function (id, callback) {
-    db.get("SELECT * FROM guide WHERE id = ? ", [id], function (err, row) {
+    db.get("SELECT * FROM guide WHERE id = ? ", [id], function (err, guide_row) {
+
         if (!err) {
             card(db);
             character(db);
             guide_cards(db);
-            var checker = 0;
             
-            function callba(i) {
-                checker += i?i:0;
-                if (++checker >= 8) {
-                    callback(false, row);
-                }
-            }
-            
-            character.getCharacterByID(row['character_id'], function (err, data) { row['character_id'] = data; callba(); });
-            
-            //TODO IMPROVE !!!
-            guide_cards.getGuideCardByID(row['basecard1_id'], function (err, data) {
-                row['basecard1_id'] = data;
-                if (data != null) {
-                    card.getCardByID(data['update1_id'], function (err, card) { data['update1_id'] = card; callba(); });
-                    card.getCardByID(data['update2_id'], function (err, card) { data['update2_id'] = card; callba(); });
-                    card.getCardByID(data['update3_id'], function (err, card) { data['update3_id'] = card; callba(); });
-                }
-                else
-                    callba(3);
+            var loadCharacter = new Promice(function (resolve, reject) {
+                character.getCharacterByID(guide_row['character_id'],
+                     function (err, character_row) { guide_row['character_id'] = character_row; console.log("FOUNd the character_id "); resolve(); });
             });
             
-            
-            
-            guide_cards.getGuideCardByID(row['basecard2_id'], function (err, data) {
-                row['basecard2_id'] = data;
-                if (data !== null) {
-                    card.getCardByID(data['update1_id'], function (err, card) { data['update1_id'] = card; callba(); });
-                    card.getCardByID(data['update2_id'], function (err, card) { data['update2_id'] = card; callba(); });
-                    card.getCardByID(data['update3_id'], function (err, card) { data['update3_id'] = card; callba(); });
-                }
-                else
-                    callba(3);
-            });
-            
-            
-            if (row['basecard3_id'] !== 'null') {
-                guide_cards.getGuideCardByID(row['basecard3_id'], function (err, data) {
-                    row['basecard3_id'] = data;
-                    card.getCardByID(data['update1_id'], function (err, card) { data['update1_id'] = card; });
-                    card.getCardByID(data['update2_id'], function (err, card) { data['update2_id'] = card; });
-                    card.getCardByID(data['update3_id'], function (err, card) { data['update3_id'] = card; });
-                    callba();
+            function loadGuideCard(columnGuideCardName) {
+                
+                return new Promice(function (guide_cards_resolve, reject) {
+                    guide_cards.getGuideCardByID(guide_row[columnGuideCardName],
+                        function (err, guide_cards_row) {
+                        console.log("Found the " + columnGuideCardName);
+                        
+                        if (err || guide_cards_row == null || guide_cards_row === 'null') {
+                            guide_cards_resolve();
+                            return;
+                        }
+                        guide_row[columnGuideCardName] = guide_cards_row;
+                        
+                        function loadCard(columnCardName) {
+                            
+                            return new Promice(function (card_resolve) {
+                                card.getCardByID(guide_cards_row[columnCardName],
+                                        function (err, card_row) {
+                                    console.log(columnGuideCardName + " found the " + columnCardName);
+                                    if (err || card_row == null || card_row === 'null') {
+                                        card_resolve();
+                                        return;
+                                    }
+
+                                    guide_cards_row[columnCardName] = card_row;
+                                    card_resolve();
+                                });
+                            });
+
+                        }
+                        
+                        Promise.all([loadCard('update1_id'), loadCard('update2_id'), loadCard('update3_id')]).then(guide_cards_resolve);
+
+                    });
                 });
+
             }
             
             
-            if (row['basecard4_id'] !== 'null') {
-                guide_cards.getGuideCardByID(row['basecard4_id'], function (err, data) {
-                    row['basecard4_id'] = data;
-                    card.getCardByID(data['update1_id'], function (err, card) { data['update1_id'] = card; });
-                    card.getCardByID(data['update2_id'], function (err, card) { data['update2_id'] = card; });
-                    card.getCardByID(data['update3_id'], function (err, card) { data['update3_id'] = card; });
-                    callba();
-                });
-            }
-            
-            
-            if (row['basecard5_id'] !== 'null') {
-                guide_cards.getGuideCardByID(row['basecard5_id'], function (err, data) {
-                    row['basecard5_id'] = data;
-                    card.getCardByID(data['update1_id'], function (err, card) { data['update1_id'] = card; });
-                    card.getCardByID(data['update2_id'], function (err, card) { data['update2_id'] = card; });
-                    card.getCardByID(data['update3_id'], function (err, card) { data['update3_id'] = card; });
-                    callba();
-                });
-            }
-            
-            
-            if (row['basecard6_id'] !== 'null') {
-                guide_cards.getGuideCardByID(row['basecard6_id'], function (err, data) {
-                    row['basecard6_id'] = data;
-                    card.getCardByID(data['update1_id'], function (err, card) { data['update1_id'] = card; });
-                    card.getCardByID(data['update2_id'], function (err, card) { data['update2_id'] = card; });
-                    card.getCardByID(data['update3_id'], function (err, card) { data['update3_id'] = card; });
-                    callba();
-                });
-            }
-            
-            
+            Promise.all([loadCharacter, loadGuideCard('guide_cards1_id'), loadGuideCard('guide_cards2_id'), loadGuideCard('guide_cards3_id'),
+                loadGuideCard('guide_cards4_id'), loadGuideCard('guide_cards5_id'), loadGuideCard('guide_cards6_id')]).then(function () { callback(false, guide_row); });
 
 
         } else {

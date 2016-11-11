@@ -7,5 +7,5 @@ module.exports.getCardByID = function (id, callback) {
         callback(true, null);
         return;
     }
-    db.get("SELECT * FROM card WHERE id = ? ", [id], callback);
+    db.get("SELECT * FROM cards WHERE id = ? ", [id], callback);
 };
