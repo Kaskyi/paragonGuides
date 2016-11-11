@@ -15,7 +15,8 @@ var bodyParser = require('body-parser');
 var multer = require('multer');
 var errorHandler = require('errorhandler');
 
-var sqliteInit = require('./models/init.js');
+var sqliteModels = require('./models');
+
 var routerGuide = require('./routes/guide.js');
 var routerUser = require('./routes/user.js');
 var routerWiKi = require('./routes/wiki.js');
@@ -26,7 +27,9 @@ var app = express();
 
 
 //Init database
-app.use(sqliteInit);
+app.use(sqliteModels({
+    file : path.join(__dirname, 'test.db')
+}));
 
 // all environments
 app.set('port', process.env.PORT || 3000);

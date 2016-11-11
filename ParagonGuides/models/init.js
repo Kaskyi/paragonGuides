@@ -1,27 +1,23 @@
 ﻿var RELOAD_DB = false;//Important ONLY DEVELOPER MODE
-
-var path = require('path');
-var appDir = path.dirname(require.main.filename);
-
 var fs = require("fs");
-var file = appDir + "\\" + "test.db";
-var exists = fs.existsSync(file);
-if (!exists) {
-    console.log("Creating DB file.");
-    fs.openSync(file, "w");
+
+module.exports = function(file)
+{ 
+    var exists = fs.existsSync(file);
+    if (!exists) {
+        console.log("Creating DB file.");
+        fs.openSync(file, "w");
+    }
+    var sqlite3 = require("sqlite3").verbose();
+    var db = new sqlite3.Database(file);
+    if (!exists || RELOAD_DB) {
+        db.serialize(function () {
+            initTables(db);
+            initData(db);
+        });
+    }
+    db.close();
 }
-var sqlite3 = require("sqlite3").verbose();
-var db = new sqlite3.Database(file);
-
-
-if (!exists || RELOAD_DB) {
-    db.serialize(function () {
-        initTables(db);
-        initData(db);
-    });
-}
-db.close();
-
 
 
 function initTables(db) {
@@ -42,12 +38,12 @@ function initTables(db) {
                              + "user_id INTEGER REFERENCES user(id)," 
                              + "character_id INTEGER REFERENCES character(id),"
                              + "skills," 
-                             + "basecard1_id INTEGER REFERENCES guide_cards(id)," 
-                             + "basecard2_id INTEGER REFERENCES guide_cards(id)," 
-                             + "basecard3_id INTEGER REFERENCES guide_cards(id),"
-                             + "basecard4_id INTEGER REFERENCES guide_cards(id),"
-                             + "basecard5_id INTEGER REFERENCES guide_cards(id)," 
-                             + "basecard6_id INTEGER REFERENCES guide_cards(id))");
+                             + "guide_cards1_id INTEGER REFERENCES guide_cards(id)," 
+                             + "guide_cards2_id INTEGER REFERENCES guide_cards(id)," 
+                             + "guide_cards3_id INTEGER REFERENCES guide_cards(id)," 
+                             + "guide_cards4_id INTEGER REFERENCES guide_cards(id)," 
+                             + "guide_cards5_id INTEGER REFERENCES guide_cards(id)," 
+                             + "guide_cards6_id INTEGER REFERENCES guide_cards(id))");
     
     db.run("CREATE TABLE guide_cards (id INTEGER PRIMARY KEY NOT NULL,"
                              + "basecard_id INTEGER REFERENCES cards(id),"
@@ -79,20 +75,12 @@ function initData(db) {
     stmt.finalize();
 
     stmt = db.prepare("INSERT INTO guide_cards VALUES (?,?,?,?,?)");
-    stmt.run("0", " 0", " 0", " 0", " null");
-    stmt.run("1", " 0", " 0", " 0", " null");
+    stmt.run("0", "0", "0", "0", " null");
+    stmt.run("1", "0", "1", "0", " null");
     stmt.finalize();
 
     stmt = db.prepare("INSERT INTO guide VALUES (?,?,?,?,?,?,?,?,?,?)");
-    stmt.run("0", " 0", " 0", " {{0,1,0},{0,0,1}}",  "0", "null", "null", "null", "null", "null");
+    stmt.run("0", " 0", " 0", " {{0,1,0},{0,0,1}}",  "0", "1", "null", "null", "null", "null");
     stmt.finalize();
 
-}
-
-
-module.exports = function (req, res, next) {
-    if (!req.db) {
-        req.db = db = new sqlite3.Database(file);
-    }
-    next();
 }
