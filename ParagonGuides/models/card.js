@@ -1,4 +1,5 @@
 ﻿var db;
+var cards_cash;
 module.exports = function (_db) {
     db = _db;
 };

@@ -10,15 +10,19 @@ var guide = require('./guide.js');
 var file = '';
 var db = {};
 
+
+var _reloadDB = function (req, res, next) {
+    db.close();
+    next();
+}
+
 var _porm = function (req, res, next) {
-    if (!req.db) {
-        req.db = db = new sqlite3.Database(file);
-        card(db);
-        character(db);
-        guide(db);
-        guide_cards(db);
-        user(db);
-    }
+    req.db = db = new sqlite3.Database(file);
+    card(db);
+    character(db);
+    guide(db);
+    guide_cards(db);
+    user(db);
     next();
 }
 
@@ -28,7 +32,7 @@ module.exports = function (obj) {
     sqliteinit(file);
     return _porm;
 }
-
+module.exports.reloadDB = _reloadDB;
 module.exports.guide = guide;
 module.exports.character = character;
 module.exports.guide_cards = guide_cards;

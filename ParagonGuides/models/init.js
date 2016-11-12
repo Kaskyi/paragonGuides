@@ -23,6 +23,8 @@ module.exports = function(file)
 function initTables(db) {
     db.run("CREATE TABLE user (id INTEGER PRIMARY KEY NOT NULL," 
                             + "login TEXT UNIQUE," 
+                            + "token," 
+                            + "series,"  
                             + "password TEXT)");
 
     db.run("CREATE TABLE character (id INTEGER PRIMARY KEY NOT NULL," 
@@ -61,8 +63,8 @@ function initTables(db) {
 }
 function initData(db) {
     
-    var stmt = db.prepare("INSERT INTO user VALUES(?,?,?)");
-    stmt.run("0", "admin", "admin");  
+    var stmt = db.prepare("INSERT INTO user VALUES(?,?,?,?,?)");
+    stmt.run("0", "admin","","", "admin");  
     stmt.finalize();
     
     stmt = db.prepare("INSERT INTO character VALUES (?,?,?,?,?,?,?,?,?,?,?,?)");

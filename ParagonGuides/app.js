@@ -14,6 +14,7 @@ var session = require('express-session');
 var bodyParser = require('body-parser');
 var multer = require('multer');
 var errorHandler = require('errorhandler');
+var cookieParser = require('cookie-parser');
 
 var sqliteModels = require('./models');
 
@@ -21,7 +22,7 @@ var routerGuide = require('./routes/guide.js');
 var routerUser = require('./routes/user.js');
 var routerWiKi = require('./routes/wiki.js');
 var routerIndex = require('./routes');
-var routerSession = require('./routes/session.js');//TODO
+var routerSession = require('./routes/session.js');
 
 var app = express();
 
@@ -38,6 +39,7 @@ app.set('view engine', 'jade');
 //app.use(favicon(__dirname + '/public/favicon.ico'));
 app.use(logger('dev'));
 app.use(methodOverride());
+app.use(cookieParser());
 app.use(session({
     resave: true,
     saveUninitialized: true,
@@ -58,7 +60,9 @@ app.use('/', routerIndex);
 app.use('/user', routerUser);
 app.use('/guide', routerGuide);
 app.use('/wiki', routerWiKi);
+app.use('/session', routerSession);
 
+app.use(sqliteModels.reloadDB);
 
 http.createServer(app).listen(app.get('port'), function () {
     console.log('Express server listening on port ' + app.get('port'));
