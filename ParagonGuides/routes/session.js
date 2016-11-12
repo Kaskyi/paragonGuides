@@ -11,7 +11,7 @@ var token = function () {
 
 
 function authenticateByCookies(req, res, next) {
-  
+    
     var cookie = JSON.parse(req.cookies.logintoken);
     userModel.findByUserName(cookie.email, function (err, user) {
         if (!err) {
@@ -20,13 +20,13 @@ function authenticateByCookies(req, res, next) {
             if (user.token == cookie.token) {
                 req.session.user_id = user.id;
                 req.currentUser = user;
-                //Code duplication
+                res.locals.user = user;
                 user.token = token();
                 userModel.saveCookies(user, function (err) {
-                    res.cookie('logintoken', JSON.stringify( {
+                    res.cookie('logintoken', JSON.stringify({
                         token: user.token,
                         email: user.login
-                    }),{
+                    }), {
                         expires: new Date(Date.now() + 2 * 604800000),
                         httpOnly: true
                     });
@@ -34,11 +34,11 @@ function authenticateByCookies(req, res, next) {
                 });
             } else {
                 console.log("DIFFRENT TOKENS");
-                res.redirect('/session/new');
+                next(true);
             }
         } else {
             console.log("SESSION COOKIES USER NOT FOUND");
-            res.redirect('/session/new');
+            next(true);
         }
         
     });
@@ -50,10 +50,11 @@ function loadUser(req, res, next) {
             console.log(user);
             if (user) {
                 req.currentUser = user;
+                res.locals.user = user;
                 console.log("Session user LOAD");
                 next();
             } else {
-                res.redirect('/login');
+                next(true);
             }
         });
         return;
@@ -61,7 +62,7 @@ function loadUser(req, res, next) {
         authenticateByCookies(req, res, next);
     }   
     else {
-        res.redirect('/session/new');
+        next(true);
     }
 }
 
@@ -86,13 +87,13 @@ function initUser(req, res, next) {
                     expires: new Date(Date.now() + 2 * 604800000),
                     httpOnly: true
                 });
-
+                
                 console.log("Session SAVED");
                 next();
             });
         } else {
             console.log("User password not correct");
-            res.redirect('/');
+            next(true);
         }
     });
 }
@@ -118,9 +119,14 @@ router.get('/logout', function (req, res, next) {
         res.redirect('/');
     });
 });
-router.get('/', function (req, res, next) {
-    loadUser(req, res, function () {
-        res.redirect('/');
+router.use('/', function (req, res, next) {
+    loadUser(req, res, function (err) {
+        if (err) {
+            req.session.err = true;
+        }
+        else
+            req.session.err = false;
+        next();
     });
 });
 
