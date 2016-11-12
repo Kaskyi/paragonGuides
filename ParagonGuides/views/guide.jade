@@ -3,5 +3,11 @@ extends layout
 block content
   h1 Here you will see some guide.
   h1 #{guide.character_id.name}
+  section
+    each item in guide.guide_cards1_id  
+      p #{item}
+      div
+        
   p #{guidejson}
+
 

@@ -26,6 +26,16 @@ html
               a(href='/guide') Guides
             li
               a(href='/wiki') Wiki
+            li
+              a(href='/user/login') Log In
+
+            if(_user)
+             li
+              a(href='/guide/create') MyGuides
+             li
+              a(href='/session/logout') Log out
+             
+
     .container.body-content
       block content
       hr

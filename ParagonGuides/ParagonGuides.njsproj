@@ -71,6 +71,7 @@
     <Content Include="README.md" />
     <Content Include="views\guide-constructor.jade" />
     <Content Include="views\guides.jade" />
+    <Content Include="views\login-form.jade" />
     <Content Include="views\user.jade" />
     <Content Include="views\guide.jade" />
     <Content Include="views\index.jade" />

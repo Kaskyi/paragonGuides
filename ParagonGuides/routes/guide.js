@@ -1,5 +1,6 @@
 ﻿var express = require('express');
 var router = express.Router();
+var routerSession = require('./session.js')
 var guideModel = require('../models').guide;
 
 router.get('/', function (req, res) {
@@ -11,7 +12,7 @@ router.get('/', function (req, res) {
         }
     });
 });
-router.get('/create', function (req, res) {
+router.get('/create', routerSession, function (req, res) {
     res.render('guide-constructor', { title: 'About', year: new Date().getFullYear(), message: 'Your application description page' });
 });
 router.get('/:id', function (req, res) {
@@ -22,5 +23,9 @@ router.get('/:id', function (req, res) {
             console.error('Guide %s not found', req.params.id);
         }
     });
+});
+router.post('/create', routerSession, function (req, res) {
+
+    res.render('guide-constructor', { title: 'About', year: new Date().getFullYear(), message: 'Your application description page' });
 });
 module.exports = router;
