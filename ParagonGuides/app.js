@@ -55,8 +55,8 @@ app.use(express.static(path.join(__dirname, 'public')));
 if ('development' == app.get('env')) {
     app.use(errorHandler());
 }
-
-app.use('/', routerSession, routerIndex);
+app.use(routerSession);
+app.use('/', routerIndex);
 app.use('/user', routerUser);
 app.use('/guide', routerGuide);
 app.use('/wiki', routerWiKi);
