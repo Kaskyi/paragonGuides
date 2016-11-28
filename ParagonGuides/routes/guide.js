@@ -19,7 +19,7 @@ router.get('/create', routerSession, function (req, res) {
   
 });
 router.get('/:id', function (req, res) {
-    guideModel.getFullGuideByID(req.params.id, function (err, row) {
+    guideModel.getGuideAndCardsByID(req.params.id, function (err, row) {
         if (!err) {
             res.render('guide', { guide: row , guidejson: JSON.stringify(row) });
         } else {

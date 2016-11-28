@@ -13,6 +13,31 @@ module.exports = function (_db) {
 module.exports.getGuideByID = function (id, callback) {
     db.get("SELECT * FROM guide WHERE id = ? ", [id], callback);
 };
+
+module.exports.getGuideAndCardsByID = function (id, callback) {
+    db.get("SELECT * FROM guide WHERE id = ? ", [id], function (err, guide_row) {
+        function loadGuideCard(columnGuideCardName) {
+            
+            return new Promice(function (guide_cards_resolve, reject) {
+                guide_cards.getGuideCardByID(guide_row[columnGuideCardName],
+                        function (err, guide_cards_row) {
+                    console.log("Found the " + columnGuideCardName);
+                    
+                    if (err || guide_cards_row == null || guide_cards_row === 'null') {
+                        guide_cards_resolve();
+                        return;
+                    }
+                    guide_row[columnGuideCardName] = guide_cards_row;
+                    guide_cards_resolve();
+                });
+            });
+
+        }
+               
+        Promise.all([loadGuideCard('guide_cards1_id'), loadGuideCard('guide_cards2_id'), loadGuideCard('guide_cards3_id'),
+            loadGuideCard('guide_cards4_id'), loadGuideCard('guide_cards5_id'), loadGuideCard('guide_cards6_id')]).then(function () { callback(false, guide_row); });
+    });
+};
 module.exports.getFullGuideByID = function (id, callback) {
     db.get("SELECT * FROM guide WHERE id = ? ", [id], function (err, guide_row) {
 
