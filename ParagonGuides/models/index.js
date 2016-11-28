@@ -23,7 +23,15 @@ var _porm = function (req, res, next) {
     guide(db);
     guide_cards(db);
     user(db);
-    next();
+    card.getCards(function (err, rows) {
+        res.locals.cards = rows;
+        character.getCharacters(function (err, rows2) {
+            res.locals.characters = rows2;
+            next(); 
+        });
+    });
+   
+    
 }
 
 

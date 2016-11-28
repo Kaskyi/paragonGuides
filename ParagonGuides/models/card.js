@@ -10,3 +10,6 @@ module.exports.getCardByID = function (id, callback) {
     }
     db.get("SELECT * FROM cards WHERE id = ? ", [id], callback);
 };
+module.exports.getCards = function (callback) {
+    db.all("SELECT * FROM cards ", callback);
+};
