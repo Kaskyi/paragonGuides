@@ -1,9 +1,10 @@
-﻿extends layout
+extends layout
 
 block content
-  form(action="/session/new" method="POST")
-    input(type="text" name="username")
-    input(type="password" name="password")
-    input(type="submit")
-    
+  .form
+    form(action="/session/new" method="POST")
+      input(type="text" name="username" placeholder="login" required title="Please enter your login." x-moz-errormessage="Please specify a valid login.")
+      input(type="password" name="password" placeholder="password" required title="Please enter your password." maxlength="16" x-moz-errormessage="Please specify a valid password")
+      input(type="submit")
+
 

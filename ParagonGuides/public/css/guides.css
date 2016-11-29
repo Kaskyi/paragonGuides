@@ -1,0 +1,35 @@
+.guides-content{
+  display: flex;
+  flex-flow: row wrap;
+}
+.guides-content a{
+  height: 300px;
+  width: 30%;
+  margin: 1.2%;
+  display: flex;
+  justify-content: center;
+  flex-flow: column;
+  border: 3px solid grey;
+  border-radius: 5px;
+  text-decoration: none;
+}
+.guides-content h4{
+  align-self: center;
+}
+.guides-content a:hover{
+  height: 300px;
+  width: 30%;
+  margin: 1.8%;
+  transition: 0.4s;
+  display: flex;
+  flex-flow: column;
+  border: 7px solid white;
+  font-weight: 700;
+  border-radius: 5px;
+  background-color: darkgrey;
+  text-decoration: none;
+}
+.guides-content img{
+  height: 240px;
+  width: 100%;
+}

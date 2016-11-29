@@ -1,0 +1,36 @@
+.form{
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  flex-flow: row nowrap;
+  width: 100%;
+}
+.form input{
+  margin: 15px;
+  width: 380px;
+  height: 70px;
+  background-color: lightgrey;
+  font-size: 27px;
+  border: 3px solid #4f4f4f;
+  border-radius: 5px;
+  color: black;
+}
+.form input[placeholder]{
+  font-family: Georgia;
+  padding-left: 10px;
+}/*find how calls press and change color from blue*/
+.form input[type="submit"]{
+  font-family: Montserrat;
+  background-color: lightgray;
+}
+.form input[type="submit"]:hover{
+  font-family: Montserrat;
+  border: 5px solid black;
+  padding: 0 25px 0 25px;
+  margin: 0 25px 0 25px;
+  border-radius: 10px;
+  color: black;
+  background-color: grey;
+  font-weight: 700;
+  transition: .3s;
+}/*add finger mouse*/
