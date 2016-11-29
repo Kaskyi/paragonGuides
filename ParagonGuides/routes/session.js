@@ -11,7 +11,7 @@ var token = function () {
 function saveUser(req, res, user, callback) {
     req.session.user_id = user.id;
     res.locals.user = user;
-   
+    
     user.token = token();
     userModel.saveCookies(user, function (err) {
         res.cookie('logintoken', JSON.stringify({
@@ -47,12 +47,16 @@ function authenticateByCookies(req, res, next) {
   
 }
 function loadUser(req, res, next) {
+    console.log("Session start load");
+    if (!req.session) {
+        return next();
+    }
+    
     if (req.session.user_id != undefined) {
         userModel.findByID(req.session.user_id, function (err, user) {
-            console.log(user);
             if (user) {
                 res.locals.user = user;
-                console.log("Session user LOAD");
+                console.log("Session user Loaded");
                 req.session.falied = true;
                 next();
             } else {
@@ -90,15 +94,14 @@ function initUser(req, res, next) {
 }
 function deleteUser(req, res, callback) {
     if (req.session) {
-        userModel.clearCookies(req.session.user_id, function () { });
-        res.clearCookie('logintoken');
+        if (req.session.user_id) {
+            userModel.clearCookies(req.session.user_id, function () { });     
+        }
         req.session.destroy(function () { });
+        res.clearCookie('logintoken');
         console.info("Session DELETE");
     }
-    if (callback == null)
-        res.redirect('/');
-    else
-        callback();
+    res.redirect('/');
 }
 
 
