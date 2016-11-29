@@ -1,49 +1,54 @@
-﻿doctype html
+doctype html
 html
   head
     meta(charset='utf-8')
     meta(name='viewport', content='width=device-width, initial-scale=1.0')
-    title #{title} - My Express Application
+    title #{title} - Paragui
+    <link href="https://fonts.googleapis.com/css?family=Gloria+Hallelujah|Indie+Flower|Montserrat" rel="stylesheet">
     link(rel='stylesheet', type='text/css', href='/stylesheets/bootstrap.min.css')
-    link(rel='stylesheet', type='text/css', href='/stylesheets/style.css')
+    link(rel='stylesheet', href='/css/main.css')
+    link(rel='stylesheet', href='/css/reset.css')
+    link(rel='stylesheet', href='/css/wiki.css')
+    link(rel='stylesheet', href='/css/guides.css')
+    link(rel='stylesheet', href='/css/login-form.css')
+    link(rel='stylesheet', href='/css/user.css')
     script(src='/javascripts/modernizr-2.6.2.js')
   body
-    .navbar.navbar-inverse.navbar-fixed-top
-      .container
-        .navbar-header
-          button.navbar-toggle(type='button', data-toggle='collapse', data-target='.navbar-collapse')
-            span.icon-bar
-            span.icon-bar
-            span.icon-bar
-          a.navbar-brand(href='/') Application name
-        .navbar-collapse.collapse
-          ul.nav.navbar-nav
-            li
-              a(href='/') Home           
-            li
-              a(href='/guide') Guides
-            li
-              a(href='/wiki') Wiki
+    header
+      .logo
+        a(href = '/') Paragui
+      nav
+        ul        
+          li
+            a(href='/guide') Guides
+          li
+            a(href='/wiki') Wiki
+          if(!user)
             li
               a(href='/user/login') Log In
-
-            if(user)
-             li
+          if(user)
+            li
               a(href='/user') User
-             li
-              a(href='/guide/create') MyGuides
-             li
+            li
+              a(href='/guide/create') My Guides
+            li
               a(href='/session/logout') Log out
-             
-
-    .container.body-content
-      block content
-      hr
-      footer
-        p &copy; #{year} - Made by KaSky
-
+    block content
+    hr
+    footer
+      .links
+        .link-to-git-1
+          a(href='https://github.com/Kaskyi')
+            img(src='../img/git1.png')
+        a(href='https://github.com/Kaskyi') KaSky
+        .link-to-git-2
+          a(href='https://github.com/AndreHollow')
+            img(src='../img/git2.png')
+        a(href='https://github.com/AndreHollow') Andre Hollow
+      .container    
+        p &copy; 2016 - Made by KaSky & Andre Hollow
+      
     script(src='/javascripts/jquery-1.10.2.js')
     script(src='/javascripts/bootstrap.js')
     script(src='/javascripts/respond.js')
-
     block scripts

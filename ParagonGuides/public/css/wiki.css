@@ -1,0 +1,28 @@
+.wiki-content a{
+  width: 40%;
+  display: flex;
+  flex-flow: column;
+  margin: 15px 0;
+  text-decoration: none;
+  color: white;
+}
+.wiki-content a h2{
+  background-color: #929292;
+  border: 3px solid grey;
+  border-radius: 5px;
+  letter-spacing: 2px;
+}
+.wiki-content a p{
+  background-color: #4f4f4f;
+  border: 3px solid grey;
+  border-radius: 5px;
+  letter-spacing: 2px;
+}
+.wiki-content a:hover{
+  background-color: white;
+  border: 3px solid grey;
+  border-radius: 5px;
+  color: black;
+  margin-left: 50px;
+  transition: .3s;
+}

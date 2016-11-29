@@ -1,4 +1,4 @@
-﻿var RELOAD_DB = false;//Important ONLY DEVELOPER MODE
+var RELOAD_DB = false;//Important ONLY DEVELOPER MODE
 var fs = require("fs");
 
 module.exports = function(file)
@@ -68,7 +68,15 @@ function initData(db) {
     stmt.finalize();
     
     stmt = db.prepare("INSERT INTO character VALUES (?,?,?,?,?,?,?,?,?,?,?,?)");
-    stmt.run("0", "Name", "Attribute", "\'http://paragon-gb.ru/wp-content/uploads/2016/05/grim.exe-icon-150x150.jpg \' ", " 2", " 3", " 4", " 5", " 2", " 3", " 4", " 5");   
+    stmt.run("0", "Jopa", "Attribute", "http://paragon-gb.ru/wp-content/uploads/2016/08/Grimexe_pic.jpg", " 2", " 3", " 4", " 5", " 2", " 3", " 4", " 5");   
+    stmt.run("1", "Jopa1337", "Attribute", "http://paragon-gb.ru/wp-content/uploads/2016/08/Grimexe_pic.jpg", " 2", " 3", " 4", " 5", " 2", " 3", " 4", " 5");   
+    stmt.run("2", "Jopa1", "Attribute", "http://paragon-gb.ru/wp-content/uploads/2016/08/Grimexe_pic.jpg", " 2", " 3", " 4", " 5", " 2", " 3", " 4", " 5");   
+    stmt.run("3", "Jopa2", "Attribute", "http://paragon-gb.ru/wp-content/uploads/2016/08/Grimexe_pic.jpg", " 2", " 3", " 4", " 5", " 2", " 3", " 4", " 5");    
+    stmt.run("4", "Jopa3", "Attribute", "http://paragon-gb.ru/wp-content/uploads/2016/08/Grimexe_pic.jpg", " 2", " 3", " 4", " 5", " 2", " 3", " 4", " 5");    
+    stmt.run("5", "Jopa4", "Attribute", "http://paragon-gb.ru/wp-content/uploads/2016/08/Grimexe_pic.jpg", " 2", " 3", " 4", " 5", " 2", " 3", " 4", " 5");    
+    stmt.run("6", "Jopa5", "Attribute", "http://paragon-gb.ru/wp-content/uploads/2016/08/Grimexe_pic.jpg", " 2", " 3", " 4", " 5", " 2", " 3", " 4", " 5");    
+    stmt.run("7", "Jopa6", "Attribute", "http://paragon-gb.ru/wp-content/uploads/2016/08/Grimexe_pic.jpg", " 2", " 3", " 4", " 5", " 2", " 3", " 4", " 5");    
+    stmt.run("8", "Jopa7", "Attribute", "http://paragon-gb.ru/wp-content/uploads/2016/08/Grimexe_pic.jpg", " 2", " 3", " 4", " 5", " 2", " 3", " 4", " 5");   
     stmt.finalize();
     
     stmt = db.prepare("INSERT INTO cards VALUES (?,?,?,?,?)");
@@ -83,6 +91,13 @@ function initData(db) {
 
     stmt = db.prepare("INSERT INTO guide VALUES (?,?,?,?,?,?,?,?,?,?)");
     stmt.run("0", " 0", " 0", " {{0,1,0},{0,0,1}}",  "0", "1", "null", "null", "null", "null");
+    stmt.run("1", " 0", " 1", " {{0,1,0},{0,0,1}}",  "0", "1", "null", "null", "null", "null");
+    stmt.run("2", " 0", " 2", " {{0,1,0},{0,0,1}}",  "0", "1", "null", "null", "null", "null");
+    stmt.run("3", " 0", " 3", " {{0,1,0},{0,0,1}}",  "0", "1", "null", "null", "null", "null");
+    stmt.run("4", " 0", " 4", " {{0,1,0},{0,0,1}}",  "0", "1", "null", "null", "null", "null");
+    stmt.run("5", " 0", " 5", " {{0,1,0},{0,0,1}}",  "0", "1", "null", "null", "null", "null");
+    stmt.run("6", " 0", " 6", " {{0,1,0},{0,0,1}}",  "0", "1", "null", "null", "null", "null");
+    stmt.run("7", " 0", " 7", " {{0,1,0},{0,0,1}}",  "0", "1", "null", "null", "null", "null");
     stmt.finalize();
 
 }
